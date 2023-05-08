@@ -5,16 +5,25 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: () => import(/* webpackChunkName: "login"*/"@/views/Login/index.vue"),
+        meta: {
+            title: '登录页面'
+        }
     },
     {
         path: "/home",
         name: "Home",
         component: () => import(/* webpackChunkName: "home"*/"@/views/Home/index.vue"),
+        meta: {
+            title: '后台首页'
+        }
     },
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
-        component: () => import(/* webpackChunkName: "" */"@/views/404page/index.vue")
+        component: () => import(/* webpackChunkName: "" */"@/views/404page/index.vue"),
+        meta: {
+            title: '404页面'
+        }
     }
     
 ];

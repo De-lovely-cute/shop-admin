@@ -16,6 +16,9 @@ import store from './store/index.js'
 // 引入全局路由守卫
 import './permission.js'
 
+// 全局loading进度条
+import 'nprogress/nprogress.css'
+import 'nprogress/nprogress.js'
 
 const app = createApp(App)
 

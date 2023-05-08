@@ -11,3 +11,8 @@ export function getinfo() {
     return axios.post('/getinfo')
 }
 
+// 退出登录
+export function logout() {
+    return axios.post('/logout')
+}
+

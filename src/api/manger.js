@@ -16,3 +16,7 @@ export function logout() {
     return axios.post('/logout')
 }
 
+// 修改密码
+export function updatepassword(data) {
+    return axios.post('/updatepassword', data)
+}

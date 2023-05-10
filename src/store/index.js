@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { login, getinfo } from "@/api/manger.js";
+import { login, getinfo, updatepassword } from "@/api/manger.js";
 
 import { setToken, removeToken } from "@/componsables/auth.js";
 
@@ -46,6 +46,14 @@ const store = createStore({
           })
           .catch((err) => reject(err));
       });
+    },
+    // 修改密码
+    updatepassword({ commit }){
+      return new Promise((resolve, reject) => {
+        updatepassword(oldpassword,password,repassword).then((res) => {
+          console.log("resdd",res)
+        })
+      })
     },
   },
 });

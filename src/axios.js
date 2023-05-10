@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from '@/store/index.js'
 
 // 通知
 // import { ElNotification } from "element-plus";
@@ -6,8 +7,6 @@ import { notifc } from "@/componsables/util.js"
 
 // import { useCookies } from "@vueuse/integrations/useCookies";
 import { getToken } from "@/componsables/auth.js"
-
-
 const service = axios.create({
   baseURL: "/api",
 });
@@ -39,8 +38,12 @@ service.interceptors.response.use(
   function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
+    const msg = error.response.data.msg || "请求失败" 
 
-    notifc(error.response.data.msg || "请求失败", "error")
+    if(msg == '非法token，请先登录！'){
+      store.dispatch("logout").finally(() => location.reload())
+    }
+    notifc(msg, "error")
     // ElNotification({
     //   message: error.response.data.msg || "请求失败",
     //   type: "error",

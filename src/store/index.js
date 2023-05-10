@@ -48,13 +48,14 @@ const store = createStore({
       });
     },
     // 修改密码
-    updatepassword({ commit }){
-      return new Promise((resolve, reject) => {
-        updatepassword(oldpassword,password,repassword).then((res) => {
-          console.log("resdd",res)
-        })
-      })
-    },
+    // updatepassword({ commit }){
+    //   return new Promise((resolve, reject) => {
+    //     updatepassword(oldpassword,password,repassword).then((res) => {
+    //       console.log("resdd",res)
+    //       resolve(res)
+    //     }).catch(err => reject(err))
+    //   })
+    // },
   },
 });
 

@@ -5,10 +5,10 @@ import { ElNotification, ElMessageBox } from "element-plus";
 import nProgress from "nprogress";
 
 // dangerouslyUseHTMLString 是否将 message 属性作为 HTML 片段处理
-export function notifc(message, type, dangerouslyUseHTMLString = false) {
+export function notifc(message, type = "success", dangerouslyUseHTMLString = false) {
   return ElNotification({
-    message: message,
-    type: type,
+    message,
+    type,
     dangerouslyUseHTMLString,
     duration: 3000,
   });

@@ -1,32 +1,37 @@
-import { createApp } from 'vue'
+import { createApp } from "vue";
 // import './style.css'
-import './assets/css/rest.css'
+import "./assets/css/rest.css";
 
-import App from './App.vue'
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
+import App from "./App.vue";
+import ElementPlus from "element-plus";
+import "element-plus/dist/index.css";
 
-import 'virtual:windi.css'
+import "virtual:windi.css";
 
-import router from './router/index.js'
+import { router } from "./router/index.js";
 
-
-import store from './store/index.js'
+import store from "./store/index.js";
 
 // 引入全局路由守卫
-import './permission.js'
+import "./permission.js";
 
 // 全局loading进度条
-import 'nprogress/nprogress.css'
-import 'nprogress/nprogress.js'
+import "nprogress/nprogress.css";
+import "nprogress/nprogress.js";
 
-const app = createApp(App)
+// 注册所有图标
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
-app.use(ElementPlus)
+const app = createApp(App);
+// 注册所有图标
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component);
+}
 
-app.use(router)
+app.use(ElementPlus);
 
-app.use(store)
+app.use(router);
 
+app.use(store);
 
-app.mount('#app')
+app.mount("#app");

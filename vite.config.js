@@ -7,7 +7,10 @@ import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), WindiCSS()],
+  plugins: [
+    vue(), 
+    WindiCSS()
+  ],
   resolve: {
     // 配置路径别名
     alias: {

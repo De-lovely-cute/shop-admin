@@ -9,6 +9,7 @@ import {
   Aim,
 } from "@element-plus/icons-vue";
 import { showModal, notifc } from "@/componsables/util.js";
+import FormDrawer from '@/components/FormDrawer.vue'
 import { logout } from "@/api/manger.js";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
@@ -33,13 +34,15 @@ const outlogin = () => {
     });
   });
 };
+const formDrawer = ref(null)
 // 下拉菜单退出登录和修改密码
 const handleCommand = (c) => {
   console.log(c);
   switch (c) {
     case "rePassword":
-      console.log("修改密码");
-      drawer.value = true
+      // console.log("修改密码");
+      // drawer.value = true
+      formDrawer.value.open()
       break;
 
     case "loginout":
@@ -52,7 +55,7 @@ const handleRefresh = () => {
   location.reload();
 };
 
-const drawer = ref(false);
+// const drawer = ref(false);
 const fromRef = ref(null);
 const form = reactive({
   oldpassword: "",
@@ -71,11 +74,12 @@ const onSubmit = () => {
     if (!valid) {
       return false;
     }
+    formDrawer.value.showLoading()
     updatepassword(form).then(res => {
       notifc("修改密码成功，请重新登录")
       store.dispatch("logout")
       router.push('/login')
-    })
+    }).finally(() => formDrawer.value.hideLoading())
   });
 
 };
@@ -87,8 +91,10 @@ const onSubmit = () => {
       <el-icon class="mr-2"><ElemeFilled /></el-icon>
       商城管理
     </span>
-    <el-icon class="icon-btn"><Fold /></el-icon>
-    <!-- <el-icon><Expand /></el-icon> -->
+    <el-icon class="icon-btn" @click="$store.commit('handleAsideWidth')">
+      <Fold v-if="$store.state.asidWidth == '250px'"/>
+      <Expand v-else/>
+    </el-icon>
     <el-tooltip
       class="box-item"
       effect="dark"
@@ -129,7 +135,22 @@ const onSubmit = () => {
       </el-dropdown>
     </div>
   </div>
-  <el-drawer v-model="drawer" title="修改密码" size="45%" :close-on-click-modal="false">
+
+  <form-drawer ref="formDrawer" title="修改密码" size="45%" destroyOnClose @submit="onSubmit">
+    <el-form  ref="fromRef" :model="form" :rules="rules" label-width="80px" size="small">
+      <el-form-item label="旧密码" prop="oldpassword">
+        <el-input v-model="form.oldpassword" show-password />
+      </el-form-item>
+      <el-form-item label="新密码" prop="password">
+        <el-input v-model="form.password" show-password/>
+      </el-form-item>
+      <el-form-item label="确认密码" prop="repassword">
+        <el-input v-model="form.repassword" show-password />
+      </el-form-item>
+    </el-form>
+  </form-drawer>
+
+  <!-- <el-drawer v-model="drawer" title="修改密码" size="45%" :close-on-click-modal="false">
     <el-form  ref="fromRef" :model="form" :rules="rules" label-width="80px" size="small">
       <el-form-item label="旧密码" prop="oldpassword">
         <el-input v-model="form.oldpassword" show-password />
@@ -145,7 +166,7 @@ const onSubmit = () => {
         <el-button>取消</el-button>
       </el-form-item>
     </el-form>
-  </el-drawer>
+  </el-drawer> -->
 </template>
 
 <style lang="less" scoped>

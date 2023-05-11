@@ -47,7 +47,7 @@ const Login = () => {
     // vuex封装login
     store.dispatch("login", form).then(res => {
       notifc("登录成功", "success")
-      router.push("/home");
+      router.push("/");
     }).finally(() => {
       loading.value = false;
     });

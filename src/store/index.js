@@ -9,6 +9,14 @@ const store = createStore({
     return {
       // 用户信息
       user: {},
+
+      // 侧边宽度
+      asidWidth: "250px",
+
+      // 侧边栏
+      menus: [],
+
+      ruleNames: []
     };
   },
   mutations: {
@@ -16,6 +24,17 @@ const store = createStore({
     SET_USERINFO(state, user) {
       state.user = user;
     },
+    // 展开/缩起侧边
+    handleAsideWidth(state){
+      state.asidWidth = state.asidWidth == '250px'?'64px':'250px'
+    },
+    // 侧边栏相关数据
+    SET_MENUS(state, menus){
+      state.menus = menus
+    },
+    SET_RULENAMES(state, ruleNames){
+      state.ruleNames = ruleNames
+    }
   },
   actions: {
     // 封装登录
@@ -42,6 +61,8 @@ const store = createStore({
         getinfo()
           .then((res) => {
             commit("SET_USERINFO", res);
+            commit("SET_MENUS", res.menus)
+            commit("SET_RULENAMES", res.ruleNames)
             resolve(res);
           })
           .catch((err) => reject(err));

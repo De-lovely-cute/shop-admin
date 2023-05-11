@@ -1,7 +1,7 @@
 <script setup>
 import FHeader from "@/views/Admin/FHeader.vue";
 import FMenu from "@/views/Admin/FMenu.vue";
-import FTagList from "@/views/Admin/components/FTagList.vue";
+import FTagList from "@/views/Admin/FTagList.vue";
 </script>
 
 <template>
@@ -10,7 +10,7 @@ import FTagList from "@/views/Admin/components/FTagList.vue";
       <f-header></f-header>
     </el-header>
     <el-container>
-      <el-aside>
+      <el-aside :width="$store.state.asidWidth">
         <f-menu></f-menu>
       </el-aside>
       <el-main>
@@ -21,4 +21,8 @@ import FTagList from "@/views/Admin/components/FTagList.vue";
   </el-container>
 </template>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.el-aside {
+  transition: all .2s;
+}
+</style>

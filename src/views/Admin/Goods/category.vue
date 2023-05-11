@@ -3,7 +3,7 @@
 </script>
 
 <template>
- 内容部分
+ 分类管理
 </template>
 
 <style lang='less' scoped>

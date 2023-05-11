@@ -15,7 +15,13 @@ import FTagList from "@/views/Admin/FTagList.vue";
       </el-aside>
       <el-main>
         <f-tag-list></f-tag-list>
-        <router-view></router-view>
+        <router-view v-slot="{ Component }">
+          <transition>
+            <keep-alive :max="10">
+              <component :is="Component"></component>
+            </keep-alive>
+          </transition>
+        </router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -23,6 +29,21 @@ import FTagList from "@/views/Admin/FTagList.vue";
 
 <style lang="less" scoped>
 .el-aside {
-  transition: all .2s;
+  transition: all 0.2s;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: all .3s;
+}
+.v-enter-active {
+  transition-delay: .3s;
+}
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+.v-enter-to,
+.v-leave-from {
+  opacity: 1;
 }
 </style>

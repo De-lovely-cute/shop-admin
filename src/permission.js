@@ -11,6 +11,9 @@ import {
 import store from "@/store/index.js";
 
 // 全局前置守卫路由
+
+// 防止重复加载getinfo，提高加载速度
+let hasGetInfo = false
 router.beforeEach(async (to, from, next) => {
   // 显示loading
   showFullLoading();
@@ -32,8 +35,9 @@ router.beforeEach(async (to, from, next) => {
 
   // 如果用户登录了，自动获取用户信息，并存储在vuex当中
   let hasNewRoutes = false;
-  if (token) {
+  if (token && !hasGetInfo) {
     let { menus } = await store.dispatch("getinfo");
+    hasGetInfo = true
     // console.log(menus)
     // 动态添加路由
     hasNewRoutes = addRoutes(menus);

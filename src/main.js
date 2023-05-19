@@ -28,6 +28,9 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
 
+import permission from "@/directives/permission";
+
+app.use(permission)
 app.use(ElementPlus);
 
 app.use(router);

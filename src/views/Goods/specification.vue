@@ -3,7 +3,9 @@
 </script>
 
 <template>
- 分类管理
+ <div>
+    规格管理
+ </div>
 </template>
 
 <style lang='less' scoped>

@@ -5,7 +5,7 @@ import { ElNotification, ElMessageBox } from "element-plus";
 import nProgress from "nprogress";
 
 // dangerouslyUseHTMLString 是否将 message 属性作为 HTML 片段处理
-export function notifc(message, type = "success", dangerouslyUseHTMLString = false) {
+export function notifc(message, type = "success", dangerouslyUseHTMLString = true) {
   return ElNotification({
     message,
     type,
@@ -32,4 +32,13 @@ export function showFullLoading(){
 // 隐藏全屏loading
 export function hideFullLoading(){
  nProgress.done()
+}
+
+// 弹出输入框
+export function showPrompt(tip,value = ""){
+  return ElMessageBox.prompt(tip, '', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    inputValue:value
+  })
 }

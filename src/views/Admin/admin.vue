@@ -10,6 +10,7 @@ import {
 import { notifc, showPrompt } from "@/componsables/util.js";
 import FormDrawer from "@/components/FormDrawer.vue";
 import chooseImageVue from "./chooseImage.vue";
+import ListHeader from "@/components/ListHeader.vue";
 const loading = ref(false);
 const currentPage = ref(1);
 const total = ref(0);
@@ -99,7 +100,7 @@ function addNotice() {
 }
 // 修改
 function handleEdit(row) {
-  console.log(row);
+  // console.log(row);
   editId.value = row.id;
   formNotice.username = row.username;
   formNotice.password = row.password;
@@ -149,7 +150,8 @@ function handleStatus(status, row) {
       </el-form>
 
       <!-- 刷新数据 -->
-      <div class="flex justify-between items-center mb-4">
+      <ListHeader @add="addNotice()" @refresh="getData"/>
+      <!-- <div class="flex justify-between items-center mb-4">
         <el-button type="primary" size="small" @click="addNotice()"
           >新增</el-button
         >
@@ -158,7 +160,7 @@ function handleStatus(status, row) {
             <el-icon :size="20"><Refresh /></el-icon>
           </el-button>
         </el-tooltip>
-      </div>
+      </div> -->
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column label="管理员" width="200">
           <template #default="{ row }">

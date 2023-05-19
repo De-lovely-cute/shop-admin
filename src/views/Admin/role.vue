@@ -3,7 +3,9 @@
 </script>
 
 <template>
- <div>角色管理</div>
+ <div>
+  角色
+ </div>
 </template>
 
 <style lang='less' scoped>

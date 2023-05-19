@@ -8,6 +8,7 @@ import {
 } from "@/api/notice.js";
 import { notifc } from "@/componsables/util.js";
 import FormDrawer from "@/components/FormDrawer.vue";
+import ListHeader from "../../components/ListHeader.vue";
 const loading = ref(false);
 const currentPage = ref(1);
 const total = ref(0);
@@ -88,17 +89,8 @@ function handleEdit(row) {
 
 <template>
   <el-card shadow="hover" class="border-0" v-loading="loading">
-    <div class="flex justify-between items-center mb-4">
-      <el-button type="primary" size="small" @click="addNotice()"
-        >新增</el-button
-      >
-      <el-tooltip effect="dark" content="刷新数据" placement="top">
-        <el-button text @click="getData">
-          <el-icon :size="20"><Refresh /></el-icon>
-        </el-button>
-        
-      </el-tooltip>
-    </div>
+    <!-- 新增刷新 -->
+    <ListHeader @add="addNotice()" @refresh="getData"/>
     <el-table :data="tableData" stripe style="width: 100%">
       <el-table-column prop="title" label="公告标题" />
       <el-table-column

@@ -7,9 +7,7 @@ export function getSysconfig() {
 
 // 修改系统设置
 export function updateSysconfig(data) {
-  return axios.post("/sysconfig", { data });
+  return axios.post("/sysconfig", data);
 }
 // 上传文件
-export function uploadSysconfig(file) {
-  return axios.post("/sysconfig/upload", file);
-}
+export const uploadAction = import.meta.env.VITE_APP_BASE_API + "/sysconfig/upload"

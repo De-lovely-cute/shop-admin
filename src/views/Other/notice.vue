@@ -8,7 +8,7 @@ import {
 } from "@/api/notice.js";
 import { notifc } from "@/componsables/util.js";
 import FormDrawer from "@/components/FormDrawer.vue";
-import ListHeader from "../../components/ListHeader.vue";
+import ListHeader from "@/components/ListHeader.vue";
 const loading = ref(false);
 const currentPage = ref(1);
 const total = ref(0);
@@ -90,7 +90,7 @@ function handleEdit(row) {
 <template>
   <el-card shadow="hover" class="border-0" v-loading="loading">
     <!-- 新增刷新 -->
-    <ListHeader @add="addNotice()" @refresh="getData"/>
+    <ListHeader @add="addNotice()" @refresh="getData" />
     <el-table :data="tableData" stripe style="width: 100%">
       <el-table-column prop="title" label="公告标题" />
       <el-table-column
@@ -126,6 +126,8 @@ function handleEdit(row) {
       background
       layout="prev, pager, next"
       :total="total"
+      @current-change="getData"
+      :current-page="currentPage"
       class="flex justify-center items-center mt-4"
     />
   </el-card>
@@ -140,10 +142,14 @@ function handleEdit(row) {
       size="normal"
     >
       <el-form-item label="公告标题" prop="title">
-        <el-input v-model="formNotice.title" placeholder="公告标题"/>
+        <el-input v-model="formNotice.title" placeholder="公告标题" />
       </el-form-item>
       <el-form-item label="公告内容" prop="content">
-        <el-input v-model="formNotice.content" type="textarea" placeholder="公告内容" />
+        <el-input
+          v-model="formNotice.content"
+          type="textarea"
+          placeholder="公告内容"
+        />
       </el-form-item>
     </el-form>
   </form-drawer>

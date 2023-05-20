@@ -1,153 +1,184 @@
-import { ref, reactive, computed } from "vue"
-import { showModal } from "@/componsables/util"
+import { ref, reactive, computed } from "vue";
+import { notifc } from "@/componsables/util";
 // 列表，分页，搜索，删除，修改状态
 export function useInitTable(opt = {}) {
-    let searchForm = null
-    let resetSearchForm = null
-    if (opt.searchForm) {
-        searchForm = reactive({ ...opt.searchForm })
-        resetSearchForm = () => {
-            for (const key in opt.searchForm) {
-                searchForm[key] = opt.searchForm[key]
-            }
-            getData()
+  let searchForm = null;
+  let resetSearchForm = null;
+  if (opt.searchForm) {
+    searchForm = reactive({ ...opt.searchForm });
+    resetSearchForm = () => {
+      for (const key in opt.searchForm) {
+        searchForm[key] = opt.searchForm[key];
+      }
+      getData();
+    };
+  }
+
+  const tableData = ref([]);
+  const loading = ref(false);
+
+  // 分页
+  const currentPage = ref(1);
+  const total = ref(0);
+  const limit = ref(10);
+
+  // 获取数据
+  function getData(p = null) {
+    if (typeof p == "number") {
+      currentPage.value = p;
+    }
+
+    loading.value = true;
+    opt
+      .getList(currentPage.value, searchForm)
+      .then((res) => {
+        if (opt.onGetListSuccess && typeof opt.onGetListSuccess == "function") {
+          opt.onGetListSuccess(res);
+        } else {
+          tableData.value = res.list;
+          total.value = res.totalCount;
         }
-    }
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  }
 
-    const tableData = ref([])
-    const loading = ref(false)
+  getData();
 
-    // 分页
-    const currentPage = ref(1)
-    const total = ref(0)
-    const limit = ref(10)
+  // 删除
+  const handleDelete = (id) => {
+    loading.value = true;
+    opt
+      .delete(id)
+      .then((res) => {
+        notifc("删除成功");
+        getData();
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  };
 
-    // 获取数据
-    function getData(p = null) {
-        if (typeof p == "number") {
-            currentPage.value = p
+  // 修改状态
+  const handleStatusChange = (status, row) => {
+    row.statusLoading = true;
+    opt
+      .updateStatus(row.id, status)
+      .then((res) => {
+        notifc("修改状态成功");
+        row.status = status;
+      })
+      .finally(() => {
+        row.statusLoading = false;
+      });
+  };
+  // 多选选中ID
+  const multiSelectionIds = ref([]);
+  const handleSelectionChange = (e) => {
+    multiSelectionIds.value = e.map((o) => o.id);
+  };
+  // 批量删除
+  const multipleTableRef = ref(null);
+  const handleMultiDelete = () => {
+    loading.value = true;
+    opt
+      .delete(multiSelectionIds.value)
+      .then((res) => {
+        toast("删除成功");
+        // 清空选中
+        if (multipleTableRef.value) {
+          multipleTableRef.value.clearSelection();
         }
+        getData();
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  };
 
-        loading.value = true
-        opt.getList(currentPage.value, searchForm)
-            .then(res => {
-                if (opt.onGetListSuccess && typeof opt.onGetListSuccess == "function") {
-                    opt.onGetListSuccess(res)
-                } else {
-                    tableData.value = res.list
-                    total.value = res.totalCount
-                }
-            })
-            .finally(() => {
-                loading.value = false
-            })
-    }
-
-    getData()
-
-    // 删除
-    const handleDelete = (id) => {
-        loading.value = true
-        opt.delete(id).then(res => {
-            showModal("删除成功")
-            getData()
-        }).finally(() => {
-            loading.value = false
-       })
-    }
-
-
-    // 修改状态
-    const handleStatusChange = (status, row) => {
-        row.statusLoading = true
-        opt.updateStatus(row.id, status)
-            .then(res => {
-                showModal("修改状态成功")
-                row.status = status
-            })
-            .finally(() => {
-                row.statusLoading = false
-            })
-    }
-
-
-    return {
-        searchForm,
-        resetSearchForm,
-        tableData,
-        loading,
-        currentPage,
-        total,
-        limit,
-        getData,
-        handleDelete,
-        handleStatusChange
-    }
+  return {
+    searchForm,
+    resetSearchForm,
+    tableData,
+    loading,
+    currentPage,
+    total,
+    limit,
+    getData,
+    handleDelete,
+    handleStatusChange,
+    multipleTableRef,
+    handleMultiDelete,
+  };
 }
 
 // 新增，修改
 export function useInitForm(opt = {}) {
-    // 表单部分
-    const formDrawerRef = ref(null)
-    const formRef = ref(null)
-    const defaultForm = opt.form
-    const form = reactive({})
-    const rules = opt.rules || {}
-    const editId = ref(0)
-    const drawerTitle = computed(() => editId.value ? "修改" : "新增")
+  // 表单部分
+  const formDrawerRef = ref(null);
+  const formRef = ref(null);
+  const defaultForm = opt.form;
+  const form = reactive({});
+  const rules = opt.rules || {};
+  const editId = ref(0);
+  const drawerTitle = computed(() => (editId.value ? "修改" : "新增"));
 
-    const handleSubmit = () => {
-        formRef.value.validate((valid) => {
-            if (!valid) return
+  const handleSubmit = () => {
+    formRef.value.validate((valid) => {
+      if (!valid) return;
 
-            formDrawerRef.value.showLoading()
+      formDrawerRef.value.showLoading();
 
-            const fun = editId.value ? opt.update(editId.value, form) : opt.create(form)
+      const fun = editId.value
+        ? opt.update(editId.value, form)
+        : opt.create(form);
 
-            fun.then(res => {
-                showModal(drawerTitle.value + "成功")
-                // 修改刷新当前页，新增刷新第一页
-                opt.getData(editId.value ? false : 1)
-                formDrawerRef.value.close()
-            }).finally(() => {
-                formDrawerRef.value.hideLoading()
-            })
-
+      fun
+        .then((res) => {
+          notifc(drawerTitle.value + "成功");
+          // 修改刷新当前页，新增刷新第一页
+          opt.getData(editId.value ? false : 1);
+          formDrawerRef.value.close();
         })
-    }
+        .finally(() => {
+          formDrawerRef.value.hideLoading();
+        });
+    });
+  };
 
-    // 重置表单
-    function resetForm(row = false) {
-        if (formRef.value) formRef.value.clearValidate()
-        for (const key in defaultForm) {
-            form[key] = row[key]
-        }
+  // 重置表单
+  function resetForm(row = false) {
+    if (formRef.value) formRef.value.clearValidate();
+    for (const key in defaultForm) {
+      form[key] = row[key];
     }
+  }
 
-    // 新增
-    const handleCreate = () => {
-        editId.value = 0
-        resetForm(defaultForm)
-        formDrawerRef.value.open()
-    }
+  // 新增
+  const handleCreate = () => {
+    editId.value = 0;
+    resetForm(defaultForm);
+    formDrawerRef.value.open();
+  };
 
-    // 编辑
-    const handleEdit = (row) => {
-        editId.value = row.id
-        resetForm(row)
-        formDrawerRef.value.open()
-    }
+  // 编辑
+  const handleEdit = (row) => {
+    editId.value = row.id;
+    resetForm(row);
+    formDrawerRef.value.open();
+  };
 
-    return {
-        formDrawerRef,
-        formRef,
-        form,
-        rules,
-        editId,
-        drawerTitle,
-        handleSubmit,
-        resetForm,
-        handleCreate,
-        handleEdit
-    }
+  return {
+    formDrawerRef,
+    formRef,
+    form,
+    rules,
+    editId,
+    drawerTitle,
+    handleSubmit,
+    resetForm,
+    handleCreate,
+    handleEdit,
+  };
 }

@@ -55,7 +55,8 @@ defineExpose({
         <slot></slot>
       </div>
       <div class="actions">
-        <el-button type="primary" @click="submit" :loading="loading">{{confirmText}}</el-button>
+        <!-- :loading="loading" -->
+        <el-button type="primary" @click="submit" >{{confirmText}}</el-button>
         <el-button type="default" @click="close">取消</el-button>
       </div>
     </div>

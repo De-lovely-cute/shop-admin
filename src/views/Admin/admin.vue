@@ -9,8 +9,10 @@ import {
 } from "@/api/manger";
 import { notifc, showPrompt } from "@/componsables/util.js";
 import FormDrawer from "@/components/FormDrawer.vue";
-import chooseImageVue from "./chooseImage.vue";
+import chooseImageVue from "@/views/Admin/chooseImage.vue";
 import ListHeader from "@/components/ListHeader.vue";
+import Search from "@/components/Search.vue";
+import SearchItem from "@/components/SearchItem.vue";
 const loading = ref(false);
 const currentPage = ref(1);
 const total = ref(0);
@@ -123,13 +125,18 @@ function handleStatus(status, row) {
       row.statusLoading = false;
     });
 }
+
+// 搜索
+function resetSearchForm() {
+  
+}
 </script>
 
 <template>
   <div>
-    <el-card shadow="hover" class="border-0" v-loading="loading">
+    <el-card shadow="hover" class="border-0">
       <!-- 搜索 -->
-      <el-form :model="searchForm" label-width="80px" class="mb-3">
+      <!-- <el-form :model="searchForm" label-width="80px" class="mb-3">
         <el-row :gutter="20">
           <el-col :span="10" :offset="0">
             <el-form-item label="关键词">
@@ -142,12 +149,20 @@ function handleStatus(status, row) {
           </el-col>
           <el-col :span="8" :offset="6">
             <el-form-item>
-              <el-button type="primary" @click="getData">搜索</el-button>
-              <el-button @click="resetSearch">重置</el-button>
+              <div class="flex">
+                <el-button type="primary" @click="getData">搜索</el-button>
+                <el-button @click="resetSearch">重置</el-button>
+              </div>
             </el-form-item>
           </el-col>
         </el-row>
-      </el-form>
+      </el-form> -->
+      <!-- 搜索 -->
+    <Search :model="searchForm" @search="getData" @reset="resetSearchForm">
+        <SearchItem label="关键词">
+          <el-input v-model="searchForm.keyword" placeholder="管理员昵称" clearable></el-input>
+        </SearchItem>
+    </Search>
 
       <!-- 刷新数据 -->
       <ListHeader @add="addNotice()" @refresh="getData"/>
@@ -161,7 +176,7 @@ function handleStatus(status, row) {
           </el-button>
         </el-tooltip>
       </div> -->
-      <el-table :data="tableData" stripe style="width: 100%">
+      <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
         <el-table-column label="管理员" width="200">
           <template #default="{ row }">
             <div class="flex items-center">
@@ -193,7 +208,7 @@ function handleStatus(status, row) {
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" fixed="right" align="center">
           <template #default="scope">
             <small v-if="scope.row.super == 1" class="text-sm text-gray-500"
               >暂无操作</small

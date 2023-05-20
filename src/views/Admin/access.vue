@@ -59,7 +59,7 @@ const addChild = (id) => {
 
 <template>
   <div>
-    <el-card shadow="never" class="border-0" v-loading="loading">
+    <el-card shadow="never" class="border-0">
       <!-- 新增刷新 -->
       <ListHeader @add="handleCreate" @refresh="getData" />
       <el-tree

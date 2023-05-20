@@ -96,10 +96,10 @@ const handleCheck = (...e) => {
 
 <template>
   <div>
-    <el-card shadow="never" v-loading="loading">
+    <el-card shadow="never">
       <!-- 新增刷新 -->
       <ListHeader @add="handleCreate" @refresh="getData" />
-      <el-table :data="tableData" stripe style="width: 100%">
+      <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
         <el-table-column prop="name" label="角色名称" width="180" />
         <el-table-column
           prop="desc"

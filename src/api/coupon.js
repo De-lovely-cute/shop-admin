@@ -22,5 +22,5 @@ export function deleteCoupon(id) {
 
 // 失效优惠券
 export function updateStatusCoupon(id, status) {
-    return axios.post(`/coupon/${id}/update_status`, {status})
+  return axios.post(`/coupon/${id}/update_status`, { status: 0 });
 }

@@ -9,7 +9,7 @@ import {
 } from "@/api/manger";
 import { notifc, showPrompt } from "@/componsables/util.js";
 import FormDrawer from "@/components/FormDrawer.vue";
-import chooseImageVue from "@/views/Admin/chooseImage.vue";
+import chooseImage from "@/components/chooseImage.vue";
 import ListHeader from "@/components/ListHeader.vue";
 import Search from "@/components/Search.vue";
 import SearchItem from "@/components/SearchItem.vue";
@@ -266,7 +266,7 @@ function resetSearchForm() {
         </el-form-item>
         <el-form-item label="头像">
           <!-- {{ formNotice.avatar }} -->
-          <chooseImageVue v-model="formNotice.avatar"/>
+          <chooseImage v-model="formNotice.avatar"/>
         </el-form-item>
         <el-form-item label="所属管理员">
           <el-select

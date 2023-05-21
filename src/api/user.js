@@ -27,7 +27,7 @@ export function addUser(data) {
 
 // 修改用户
 export function editUser(id,data) {
-    return axios.post("/user/"+id,data)
+    return axios.post(`/user/${id}`,data)
 }
 // 删除用户
 export function deleteUser(id) {

@@ -1,18 +1,21 @@
 <script setup>
-import { reactive, ref, computed } from "vue";
+import { ref } from "vue"
+import ListHeader from "@/components/ListHeader.vue";
+import FormDrawer from "@/components/FormDrawer.vue";
+import ChooseImage from "@/components/chooseImage.vue";
+import Search from "@/components/Search.vue";
+import SearchItem from "@/components/SearchItem.vue";
+
 import {
   getUser,
   getUserStatus,
   addUser,
   editUser,
-  deleteUser,
-} from "@/api/user";
-import FormDrawer from "@/components/FormDrawer.vue";
-import chooseImage from "@/views/Admin/chooseImage.vue";
-import ListHeader from "@/components/ListHeader.vue";
-import Search from "@/components/Search.vue";
-import SearchItem from "@/components/SearchItem.vue";
-import { useInitTable, useInitForm } from "@/componsables/useCommon";
+  deleteUser
+} from "@/api/user"
+
+import { useInitTable,useInitForm } from '@/componsables/useCommon'
+
 const roles = ref([])
 
 const user_level = ref([])
@@ -71,9 +74,8 @@ const {
   create:addUser
 })
 
- 
-</script>
 
+</script>
 <template>
   <el-card shadow="never" class="border-0">
     <!-- 搜索 -->
@@ -166,7 +168,7 @@ const {
           <el-input v-model="form.nickname" placeholder="昵称"></el-input>
         </el-form-item>
         <el-form-item label="头像" prop="avatar">
-          <chooseImage v-model="form.avatar"/>
+          <ChooseImage v-model="form.avatar"/>
         </el-form-item>
         <el-form-item label="会员等级" prop="user_level_id">
           <el-select v-model="form.user_level_id" placeholder="选择会员等级">
@@ -192,34 +194,6 @@ const {
 
   </el-card>
 </template>
-
-<style lang="less" scoped>
-.avatar-uploader .avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
-</style>
-
-<style>
-.avatar-uploader .el-upload {
-  border: 1px dashed var(--el-border-color);
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-  border-color: var(--el-color-primary);
-}
-
-.el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  text-align: center;
-}
+<style lang='less' scoped>
+ 
 </style>

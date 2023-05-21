@@ -23,7 +23,7 @@ function getData(){
 getData()
 const onSubmit = ()=>{
    loading.value = true
-   updateSysconfig(...form).then(res=>{
+   updateSysconfig({...form}).then(res=>{
       notifc("修改成功")
       getData()
    }).finally(()=>{

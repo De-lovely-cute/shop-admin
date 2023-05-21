@@ -38,7 +38,6 @@ const submit = () => {
 <template>
   <div v-if="modelValue">
     <el-image :src="modelValue" fit="cover" class="w-[100px] h-[100px] rounded border mr-2"></el-image>
-    
   </div>
   <div class="choose-image-btn" @click="open">
     <el-icon :size="25" class="text-gray-100"><Plus /></el-icon>

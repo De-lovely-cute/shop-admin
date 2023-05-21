@@ -1,10 +1,10 @@
 <script setup>
- 
+ import { editAgentSetting, getAgentSetting } from "@/api/agent";
 </script>
 
 <template>
  <div>
-    分销设置
+    
  </div>
 </template>
 

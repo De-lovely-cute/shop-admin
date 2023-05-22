@@ -85,7 +85,7 @@ export function useInitTable(opt = {}) {
     opt
       .delete(multiSelectionIds.value)
       .then((res) => {
-        toast("删除成功");
+        notifc("删除成功");
         // 清空选中
         if (multipleTableRef.value) {
           multipleTableRef.value.clearSelection();

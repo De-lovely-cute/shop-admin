@@ -62,8 +62,9 @@ const addChild = (id) => {
 };
 // 推荐产品
 const GoodsDrawerRef = ref(null)
-const handleProject = (data) =>{
-   GoodsDrawerRef.value.open(data)
+const openGoodsDrawer = (data) =>{
+  // console.log("data",data)
+  GoodsDrawerRef.value.open(data)
 }
 
 </script>
@@ -87,7 +88,7 @@ const handleProject = (data) =>{
               <el-button
                 text
                 type="primary"
-                @click="handleProject(data)"
+                @click="openGoodsDrawer(data)"
                 :loading="data.goodsDrawerLoading"
                 >推荐产品</el-button
               >

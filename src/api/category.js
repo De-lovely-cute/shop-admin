@@ -27,7 +27,7 @@ export function deleteCategory(id) {
 
 // 分类关联产品列表
 export function listCategoryItem(category_id) {
-  return axios.post(`/app_category_item/list?category_id=${category_id}`);
+  return axios.get(`/app_category_item/list?category_id=${category_id}`);
 }
 
 // 删除关联产品列表
@@ -36,9 +36,6 @@ export function deleteCategoryItem(id) {
 }
 
 // 关联产品
-export function CategoryItem(category_id, goods_ids) {
-  return axios.post("/app_category_item", {
-    category_id,
-    goods_ids,
-  });
+export function CategoryItem(data) {
+  return axios.post("/app_category_item", data);
 }

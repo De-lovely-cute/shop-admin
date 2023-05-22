@@ -111,12 +111,19 @@ const review = (row) => {
       <el-table-column label="ID" prop="id" width="50" />
       <el-table-column label="商品" width="250">
         <template #default="{ row }">
-          <div class="flex">
+          <div class="flex" v-if="row.goods_item">
             <el-image
               class="w-[50px] h-[50px] rounded"
               :src="row.goods_item.cover"
             />
             <div class="ml-3">{{ row.goods_item.title }}</div>
+          </div>
+          <div v-else>
+            <el-image
+              class="w-[50px] h-[50px] rounded"
+              :src="d"
+            />
+            <div class="ml-3">商品已被删除</div>
           </div>
         </template>
       </el-table-column>

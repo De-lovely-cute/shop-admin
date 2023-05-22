@@ -17,19 +17,26 @@ export function editImages(id, data) {
 
 // 删除图库
 export function deleteImages(id) {
-    return axios.post(`/image_class/${id}/delete`);
-  }
-
-  export function getImageList(id,page = 1){
-    return axios.get(`/image_class/${id}/image/${page}`)
+  return axios.post(`/image_class/${id}/delete`);
 }
 
-export function updateImage(id,name){
-    return axios.post(`/image/${id}`,{ name })
+// 指定分类下的图片列表
+export function getImageList(id, page = 1) {
+  return axios.get(`/image_class/${id}/image/${page}`);
 }
 
-export function deleteImage(ids){
-    return axios.post(`/image/delete_all`,{ ids })
+// 修改图片名称
+export function updateImage(id, name) {
+  return axios.post(`/image/${id}`, { name });
 }
 
-export const uploadImageAction = "/api/image/upload"
+// 删除图片
+export function deleteImage(ids) {
+  return axios.post(`/image/delete_all`, { ids });
+}
+
+// 图片上传
+// export const uploadImageAction = "/api/image/upload"
+
+// 打包上线
+export const uploadImageAction = import.meta.env.VITE_APP_BASE_API + "/image/upload";

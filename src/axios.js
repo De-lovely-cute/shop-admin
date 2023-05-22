@@ -8,7 +8,9 @@ import { notifc } from "@/componsables/util.js"
 // import { useCookies } from "@vueuse/integrations/useCookies";
 import { getToken } from "@/componsables/auth.js"
 const service = axios.create({
-  baseURL: "/api",
+  // baseURL: "/api",
+  // 上线部署
+  baseURL: import.meta.env.VITE_APP_BASE_API,
 });
 
 // 添加请求拦截器
